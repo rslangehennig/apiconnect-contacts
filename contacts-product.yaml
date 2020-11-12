@@ -25,5 +25,5 @@ visibility:
     type: authenticated
     orgs: []
     tags: []
-   enabled: true
+    enabled: true
 product: 1.0.0
