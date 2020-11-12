@@ -1,0 +1,112 @@
+swagger: '2.0'
+info:
+  title: CONTACTSAPI
+  x-ibm-name: contactsapi
+  version: 1.0.0
+  description: CONTACTSAPI
+schemes:
+  - https
+basePath: /jgrmqapi/v1
+x-ibm-configuration:
+  gateway: datapower-api-gateway
+  type: rest
+  phase: realized
+  enforced: true
+  testable: true
+  cors:
+    enabled: true
+  assembly:
+    execute:
+      - invoke:
+          title: invoke
+          version: 2.0.0
+          verb: keep
+          target-url: $(target-url)$(request.path)
+          follow-redirects: false
+          timeout: 60
+          parameter-control:
+            type: blacklist
+            values: []
+          header-control:
+            type: blacklist
+            values: []
+          inject-proxy-headers: true
+  properties:
+    target-url:
+      value: 'http://example.com/operation-name'
+      description: The URL of the target service
+      encoded: false
+  catalogs:
+    test:
+      properties:
+        target-url: >-
+          http://jgr-mqapi-prem-http-cp4i-ace.jgrcp4iocp45-dcd557ed086a97d77c2297a53c025612-0000.tor01.containers.appdomain.cloud:80
+  application-authentication:
+    certificate: false
+definitions:
+  jgr-metadafa:
+    type: object
+    properties:
+      code:
+        type: string
+  jgr-data:
+    type: object
+    properties:
+      id:
+        type: string
+      fname:
+        type: string
+      lname:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+      company:
+        type: string
+      comments:
+        type: string
+  jgr-response:
+    type: object
+    properties:
+      code:
+        type: string
+      msg:
+        type: string
+      time:
+        type: string
+  jgr-in-msg:
+    type: object
+    properties:
+      metadata:
+        $ref: '#/definitions/jgr-metadafa'
+      payload:
+        $ref: '#/definitions/jgr-data'
+  jgr-out-msg:
+    type: object
+    properties:
+      response:
+        $ref: '#/definitions/jgr-response'
+      payload:
+        $ref: '#/definitions/jgr-data'
+paths:
+  /contacts:
+    post:
+      operationId: postContacts
+      responses:
+        '200':
+          description: The operation was successful.
+          schema:
+            $ref: '#/definitions/jgr-in-msg'
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      description: Insert a contacts
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/jgr-in-msg'
+          description: The request body for the operation
+          required: true

@@ -1,7 +1,7 @@
 info:
   version: 1.0.0
-  title: JGRMQAPI Product
-  name: jgrmqapi-product
+  title: Contacts Product
+  name: contacts-product
 gateways:
   - datapower-api-gateway
 plans:
@@ -14,7 +14,7 @@ plans:
     approval: false
 apis:
   jgrmqapi1.0.0:
-    $ref: jgrmqapi_1.0.0.yaml
+    $ref: contactsapi.yaml
 visibility:
   view:
     type: public
